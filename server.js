@@ -9,8 +9,7 @@ const PORT = 5001;
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "http://localhost:5174",
-  "https://your-production-domain.com",
+  "https://quantumcusp.vercel.app",
 ];
 
 
@@ -46,6 +45,9 @@ app.use(bodyParser.json());
 // Routes
 app.use('/api', routes);
 
+app.get('/', (req, res) => {
+    res.status(200).send('Server is running');
+});
 
 // Start server
 app.listen(PORT, () => {
