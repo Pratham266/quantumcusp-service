@@ -6,18 +6,8 @@ const { appendToSheet } = require('./sheetsConfig');
 // Email validation regex
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-router.post('/contact', async (req, res) => {
-    console.log("=== Received Contact Form Submission ===");
-    
+router.post('/contact', async (req, res) => {    
     const { name, email, message } = req.body;
-    
-    // Log received data
-    console.log({
-        name,
-        email,
-        message,
-        timestamp: new Date().toISOString()
-    });
 
     // Validation
     if (!name || !email || !message) {
@@ -30,7 +20,6 @@ router.post('/contact', async (req, res) => {
 
     // Validate email format
     if (!emailRegex.test(email)) {
-        console.error("Validation Error: Invalid email format");
         return res.status(400).json({ 
             success: false, 
             message: 'Please provide a valid email address' 
@@ -39,7 +28,6 @@ router.post('/contact', async (req, res) => {
 
     // Validate message length (prevent spam)
     if (message.length < 10) {
-        console.error("Validation Error: Message too short");
         return res.status(400).json({ 
             success: false, 
             message: 'Message must be at least 10 characters long' 
@@ -47,7 +35,6 @@ router.post('/contact', async (req, res) => {
     }
 
     if (message.length > 5000) {
-        console.error("Validation Error: Message too long");
         return res.status(400).json({ 
             success: false, 
             message: 'Message must be less than 5000 characters' 
@@ -56,14 +43,10 @@ router.post('/contact', async (req, res) => {
 
     try {
         // Add entry to Google Sheet
-        console.log("📊 Adding entry to Google Sheet...");
+       
         const result = await appendToSheet(name, email, message);
         
-        if (result.mode === 'console-only') {
-            console.log("✓ Data logged to console (Google Sheets not configured)");
-        } else {
-            console.log("✓ Entry added to Google Sheet successfully!");
-        }
+    
 
         // Create transporter for thank you email
         const transporter = createTransporter();

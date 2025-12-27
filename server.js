@@ -10,6 +10,7 @@ const PORT = 5001;
 const allowedOrigins = [
   "http://localhost:5173",
   "https://quantumcusp.vercel.app",
+  "https://quantumcusp.co"
 ];
 
 
